@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Security Code</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(#cabeff 0%, #e6deff 100%);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-card {
+            max-width: 450px;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #eae7ef;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px -10px rgba(94, 59, 219, .15);
+            transition: .3s;
+        }
+
+        .title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1b1b21;
+            margin-bottom: 2rem;
+        }
+
+        .code-input {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 1em;
+            color: #5e3bdb;
+            border: 1px solid #c9c4d7;
+            border-radius: .75rem;
+            padding: 1rem 2rem;
+            transition: .3s;
+        }
+
+        .code-input:focus {
+            border-color: #5e3bdb;
+            box-shadow: 0 0 0 .25rem rgba(94, 59, 219, .15);
+        }
+
+        .code-input.valid {
+            border-color: #5e3bdb;
+        }
+
+        .code-input::placeholder {
+            color: #dbd9e1;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container h-100">
+    <div class="row min-vh-100 justify-content-center align-items-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="code-card text-center">
+
+                <h1 class="title">
+                    Enter Code
+                </h1>
+
+                <input
+                    type="text"
+                    id="securityCode"
+                    maxlength="6"
+                    class="form-control code-input"
+                    autofocus>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById('securityCode');
+
+    input.addEventListener('input', function () {
+        this.value = this.value
+            .replace(/[^0-9A-Z]/gi, '')
+            .toUpperCase();
+
+        if (this.value.length === 6) {
+            this.classList.add('valid');
+        } else {
+            this.classList.remove('valid');
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

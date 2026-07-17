@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["js/kanban-D5Zv9kd3.js","js/toast-DgCSlJPv.js","js/rolldown-runtime-DEgBLETi.js","js/modal-MTuCfURV.js"])))=>i.map(i=>d[i]);
+import{t as n}from"./main-v4-BFwmMcfm.js";n(async()=>{const{initKanban:n}=await import("./kanban-D5Zv9kd3.js");return{initKanban:n}},__vite__mapDeps([0,1,2,3])).then(({initKanban:n})=>{n(),document.getElementById("kanban-add-btn").addEventListener("click",n=>{n.stopPropagation(),n.preventDefault(),document.querySelector('.kanban-add[data-add-col="todo"]')?.click()})});

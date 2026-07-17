@@ -1,0 +1,5 @@
+/* Global custom CSS only.
+   NOTE: Do NOT import Bootstrap here — this entry loads on the Gentelella
+   admin layout, and Bootstrap's reboot/components collide with the theme.
+   Bootstrap for the login page lives in resources/css/login.css. */
+@import 'bootstrap/dist/css/bootstrap.min.css';

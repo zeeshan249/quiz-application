@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Security Code</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <style>
+        /* Fallback shadow class using hardcoded RGBA color */
+        .ambient-shadow {
+            box-shadow: 0 10px 30px -10px rgba(94, 59, 219, 0.15);
+        }
+    </style>
+</head>
+<body class="flex flex-col" style="background: linear-gradient(rgb(202, 190, 255) 0%, rgb(230, 222, 255) 100%); min-height: 100vh;">
+
+    <main class="flex-grow flex items-center justify-center px-[16px]">
+        <div class="w-full max-w-md bg-[#ffffff] rounded-lg p-[32px] ambient-shadow border border-[#eae7ef] transition-all duration-500">
+            <div class="text-center space-y-[16px]">
+                
+                <h1 class="font-['Manrope'] text-[24px] leading-[32px] font-semibold text-[#1b1b21]">Enter Code</h1>
+                
+                <div class="pt-[32px]">
+                    <div class="relative group">
+                        <input 
+                            type="text" 
+                            maxlength="6" 
+                            placeholder="" 
+                            class="w-full text-center tracking-[1em] font-['Manrope'] text-[24px] leading-[32px] font-semibold py-[16px] px-[32px] border border-[#c9c4d7] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5e3bdb] focus:border-transparent transition-all duration-300 bg-[#ffffff] text-[#5e3bdb] placeholder:text-[#dbd9e1]" 
+                            id="securityCode" 
+                            autofocus
+                        >
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const input = document.getElementById('securityCode');
+        
+        input.addEventListener('input', (e) => {
+            // Only allow alphanumeric characters (numbers and letters) and force uppercase
+            e.target.value = e.target.value.replace(/[^0-9A-Z]/gi, '').toUpperCase();
+            
+            // Visual feedback when exactly 6 characters are typed
+            if (e.target.value.length === 6) {
+                // Add primary color border (#5e3bdb)
+                input.classList.add('border-[#5e3bdb]');
+                input.classList.remove('border-[#c9c4d7]');
+            } else {
+                // Revert to original outline variant border (#c9c4d7)
+                input.classList.remove('border-[#5e3bdb]');
+                input.classList.add('border-[#c9c4d7]');
+            }
+        });
+    </script>
+</body>
+</html>

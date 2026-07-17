@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Sleek, soft ambient shadow instead of heavy lines */
+        .ambient-shadow {
+            box-shadow: 0 10px 40px -10px rgba(94, 59, 219, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-[16px]" style="background: linear-gradient(rgb(202, 190, 255) 0%, rgb(230, 222, 255) 100%); min-height: 100vh;">
+
+    <main class="w-full max-w-4xl bg-[#ffffff] border border-[#e4e1ea] rounded-2xl p-[32px] md:p-[48px] ambient-shadow">
+        
+        <section class="mb-[40px]">
+            <span class="text-[12px] font-bold tracking-wider text-[#5e3bdb] uppercase font-['Inter'] mb-[8px] block">Question 01</span>
+            <h2 class="text-[22px] md:text-[26px] font-bold text-[#1b1b21] leading-snug font-['Manrope']">
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum?
+            </h2>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-[24px] gap-y-[16px]">
+            
+            <button class="w-full text-left bg-[#ffffff] border border-[#e4e1ea] rounded-xl p-[20px] text-[16px] md:text-[18px] font-medium text-[#484555] hover:border-[#5e3bdb] hover:bg-[#fdfbff] hover:text-[#5e3bdb] active:scale-[0.99] transition-all duration-200 focus:outline-none font-['Inter'] flex items-center gap-[16px]">
+                <span class="w-[28px] h-[28px] flex items-center justify-center rounded-lg bg-[#efecf5] text-[#5e3bdb] text-[14px] font-semibold">A</span>
+                <span>Option A Placeholder</span>
+            </button>
+
+            <button class="w-full text-left bg-[#ffffff] border border-[#e4e1ea] rounded-xl p-[20px] text-[16px] md:text-[18px] font-medium text-[#484555] hover:border-[#5e3bdb] hover:bg-[#fdfbff] hover:text-[#5e3bdb] active:scale-[0.99] transition-all duration-200 focus:outline-none font-['Inter'] flex items-center gap-[16px]">
+                <span class="w-[28px] h-[28px] flex items-center justify-center rounded-lg bg-[#efecf5] text-[#5e3bdb] text-[14px] font-semibold">B</span>
+                <span>Option B Placeholder</span>
+            </button>
+
+            <button class="w-full text-left bg-[#ffffff] border border-[#e4e1ea] rounded-xl p-[20px] text-[16px] md:text-[18px] font-medium text-[#484555] hover:border-[#5e3bdb] hover:bg-[#fdfbff] hover:text-[#5e3bdb] active:scale-[0.99] transition-all duration-200 focus:outline-none font-['Inter'] flex items-center gap-[16px]">
+                <span class="w-[28px] h-[28px] flex items-center justify-center rounded-lg bg-[#efecf5] text-[#5e3bdb] text-[14px] font-semibold">C</span>
+                <span>Option C Placeholder</span>
+            </button>
+
+            <button class="w-full text-left bg-[#ffffff] border border-[#e4e1ea] rounded-xl p-[20px] text-[16px] md:text-[18px] font-medium text-[#484555] hover:border-[#5e3bdb] hover:bg-[#fdfbff] hover:text-[#5e3bdb] active:scale-[0.99] transition-all duration-200 focus:outline-none font-['Inter'] flex items-center gap-[16px]">
+                <span class="w-[28px] h-[28px] flex items-center justify-center rounded-lg bg-[#efecf5] text-[#5e3bdb] text-[14px] font-semibold">D</span>
+                <span>Option D Placeholder</span>
+            </button>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

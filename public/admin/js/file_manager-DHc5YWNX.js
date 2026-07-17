@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["js/file-manager-21QIZOPH.js","js/toast-DgCSlJPv.js","js/rolldown-runtime-DEgBLETi.js","js/menus-BVcs0GJR.js","js/modal-MTuCfURV.js"])))=>i.map(i=>d[i]);
+import{t as i}from"./main-v4-BFwmMcfm.js";i(async()=>{const{initFileManager:i}=await import("./file-manager-21QIZOPH.js");return{initFileManager:i}},__vite__mapDeps([0,1,2,3,4])).then(({initFileManager:i})=>i());

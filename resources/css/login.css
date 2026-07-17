@@ -1,0 +1,4 @@
+/* Login page stylesheet — Bootstrap 5 + login-specific tweaks.
+   Loaded ONLY by resources/views/components/layouts/login.blade.php,
+   so it never touches the Gentelella admin dashboard. */
+@import 'bootstrap/dist/css/bootstrap.min.css';
