@@ -22,6 +22,7 @@ Route::get('/waiting-for-others', UserWaitingLobby::class)->name('frontend.user_
 // API endpoint for participant count
 Route::get('/api/quiz-session/{quizSessionId}/participant-count', function ($quizSessionId) {
     $count = Participant::where('quiz_session_id', $quizSessionId)->count();
+
     return response()->json(['count' => $count]);
 });
 

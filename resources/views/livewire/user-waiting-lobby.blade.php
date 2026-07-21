@@ -69,7 +69,7 @@
             </p>
 
             <h4 class="fw-bold">
-                <span data-participant-count>{{ $participantCount??0 }}</span> Participants Joined
+                <span data-participant-count>{{ $participantCount ?? 0 }}</span> Participants Joined
             </h4>
 
             <small class="text-muted">
@@ -80,67 +80,14 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const quizSessionId = @json($quizSessionId);
-    const countElement = document.querySelector('[data-participant-count]');
-
-    console.log('🚀 Waiting Lobby Script Loaded');
-    console.log('Quiz Session ID:', quizSessionId);
-    console.log('Count Element:', countElement);
-
-    if (!countElement) {
-        console.error('❌ Count element not found!');
-        return;
-    }
-
-    // Listen to Echo broadcasts
-    if (window.Echo) {
-        console.log('📡 Echo available, listening to broadcasts...');
-        const channel = window.Echo.channel(`quiz.${quizSessionId}`);
-
-        channel.subscribed(() => {
-            console.log('✅ Subscribed to quiz channel:', `quiz.${quizSessionId}`);
-        });
-
-        channel.listen('.participant.joined', (data) => {
-            console.log('📢 Broadcast received:', data);
-            if (data.count !== undefined) {
-                countElement.textContent = data.count;
-                console.log('✅ Count updated via broadcast:', data.count);
-            }
-        });
-    } else {
-        console.warn('⚠️ Echo not available, will use polling only');
-    }
-
-    // Polling - check every 2 seconds
-    console.log('🔄 Starting polling...');
-    const pollInterval = setInterval(async () => {
-        try {
-            const response = await fetch(`/api/quiz-session/${quizSessionId}/participant-count`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                }
+@script
+    <script>
+        window.Echo.channel('quiz.{{ $quizSessionId }}')
+            .listen('.participant.joined', (e) => {
+                Livewire.dispatch('participant-joined', {
+                    count: e.count,
+                    quizSessionId: e.quizSessionId,
+                });
             });
-            if (response.ok) {
-                const data = await response.json();
-                if (data.count !== undefined) {
-                    const currentCount = parseInt(countElement.textContent);
-                    if (data.count !== currentCount) {
-                        console.log('✅ Count updated via polling:', data.count);
-                        countElement.textContent = data.count;
-                    }
-                }
-            } else {
-                console.error('❌ API error:', response.status);
-            }
-        } catch (error) {
-            console.error('❌ Polling error:', error);
-        }
-    }, 2000);
-});
-</script>
-@endpush
-
+    </script>
+@endscript

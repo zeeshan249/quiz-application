@@ -20,6 +20,8 @@
 
     {{ $slot??'' }}
 
+    @livewireScripts
+
     @stack('scripts')
 
 </body>
