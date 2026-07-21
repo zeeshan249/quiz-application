@@ -27,22 +27,21 @@ class ParticipantJoined implements ShouldBroadcastNow
         ];
     }
 
-  
+    public function broadcastAs(): string
+    {
+        return 'participant.joined';
+    }
 
     public function broadcastWith(): array
     {
-        logger()->info('broadcastWith()', [
-            'count' => Participant::where(
-                'quiz_session_id',
-                $this->quizSessionId
-            )->count(),
-        ]);
+        $count = Participant::where(
+            'quiz_session_id',
+            $this->quizSessionId
+        )->count();
 
         return [
-            'count' => Participant::where(
-                'quiz_session_id',
-                $this->quizSessionId
-            )->count(),
+            'count' => $count,
+            'quizSessionId' => $this->quizSessionId,
         ];
     }
 }

@@ -24,12 +24,18 @@ class UserWaitingLobby extends FrontendComponent
         )->count();
     }
 
-    #[On('echo:quiz.{quizSessionId},participant.joined')]
+    #[On('echo:quiz.{quizSessionId}:participant.joined')]
     public function participantJoined($event)
     {
-        logger()->info('ParticipantJoined received', $event);
-
         $this->participantCount = $event['count'];
+    }
+
+    public function refreshCount()
+    {
+        $this->participantCount = Participant::where(
+            'quiz_session_id',
+            $this->quizSessionId
+        )->count();
     }
 
     public function render()

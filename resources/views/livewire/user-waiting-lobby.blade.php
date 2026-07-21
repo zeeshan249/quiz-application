@@ -69,7 +69,7 @@
             </p>
 
             <h4 class="fw-bold">
-                {{ $participantCount??0 }} Participants Joined
+                <span data-participant-count>{{ $participantCount??0 }}</span> Participants Joined
             </h4>
 
             <small class="text-muted">
@@ -82,25 +82,41 @@
 
 @push('scripts')
 <script>
-console.log('Script loaded');
+document.addEventListener('DOMContentLoaded', () => {
+    const quizSessionId = @json($quizSessionId);
+    const countElement = document.querySelector('[data-participant-count]');
 
-setTimeout(() => {
-    console.log('Echo', window.Echo);
+    // Listen to Echo broadcasts
+    if (window.Echo) {
+        const channel = window.Echo.channel(`quiz.${quizSessionId}`);
 
-    window.Echo
-        .channel('quiz.{{ session("quiz_session_id") }}')
-        .subscribed(() => {
-            console.log('SUBSCRIBED');
-        })
-        .listen('.participant.joined', (e) => {
-            console.log('EVENT RECEIVED', e);
+        channel.listen('.participant.joined', (data) => {
+            console.log('Broadcast received:', data);
+            if (countElement && data.count) {
+                countElement.textContent = data.count;
+            }
         });
-}, 1000);
-</script>
-<script>
-    window.Echo.channel('quiz.95')
-    .listen('ParticipantJoined', (e) => {
-        console.log('EVENT', e);
-    });
+    }
+
+    // Polling fallback - check every 2 seconds
+    setInterval(async () => {
+        try {
+            const response = await fetch(`/api/quiz-session/${quizSessionId}/participant-count`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (countElement && data.count !== undefined) {
+                    countElement.textContent = data.count;
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching participant count:', error);
+        }
+    }, 2000);
+});
 </script>
 @endpush
+
