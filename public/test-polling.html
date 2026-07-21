@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Participant Count Polling Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        .count {
+            font-size: 48px;
+            color: #5e3bdb;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        .info { color: #0066cc; }
+        .success { color: #00aa00; }
+        .error { color: #cc0000; }
+        .warning { color: #ff6600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Participant Count Test</h1>
+        <p>This page tests the polling mechanism to fetch the participant count every 2 seconds.</p>
+
+        <div class="count" id="count">0</div>
+
+        <p id="status" style="text-align: center; color: #666;">Connecting...</p>
+
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        const quizSessionId = 1;
+        const countElement = document.getElementById('count');
+        const statusElement = document.getElementById('status');
+        const logElement = document.getElementById('log');
+
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logElement.appendChild(entry);
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        log('🚀 Test started', 'info');
+        log(`Quiz Session ID: ${quizSessionId}`, 'info');
+
+        let lastCount = parseInt(countElement.textContent);
+
+        // Polling - check every 2 seconds
+        log('🔄 Starting polling every 2 seconds...', 'info');
+        const pollInterval = setInterval(async () => {
+            try {
+                const response = await fetch(`/api/quiz-session/${quizSessionId}/participant-count`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ API Response: ${JSON.stringify(data)}`, 'success');
+
+                    if (data.count !== undefined) {
+                        if (data.count !== lastCount) {
+                            log(`✅ Count changed: ${lastCount} → ${data.count}`, 'success');
+                            countElement.textContent = data.count;
+                            lastCount = data.count;
+                            statusElement.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+                        }
+                    }
+                } else {
+                    log(`❌ API error: ${response.status} ${response.statusText}`, 'error');
+                    statusElement.textContent = `Error: ${response.status}`;
+                }
+            } catch (error) {
+                log(`❌ Fetch error: ${error.message}`, 'error');
+                statusElement.textContent = `Error: ${error.message}`;
+            }
+        }, 2000);
+
+        log('✅ Polling initialized', 'success');
+        log('Try adding participants in another tab and see the count update here', 'info');
+    </script>
+</body>
+</html>

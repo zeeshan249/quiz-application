@@ -86,20 +86,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizSessionId = @json($quizSessionId);
     const countElement = document.querySelector('[data-participant-count]');
 
-    // Listen to Echo broadcasts
-    if (window.Echo) {
-        const channel = window.Echo.channel(`quiz.${quizSessionId}`);
+    console.log('🚀 Waiting Lobby Script Loaded');
+    console.log('Quiz Session ID:', quizSessionId);
+    console.log('Count Element:', countElement);
 
-        channel.listen('.participant.joined', (data) => {
-            console.log('Broadcast received:', data);
-            if (countElement && data.count) {
-                countElement.textContent = data.count;
-            }
-        });
+    if (!countElement) {
+        console.error('❌ Count element not found!');
+        return;
     }
 
-    // Polling fallback - check every 2 seconds
-    setInterval(async () => {
+    // Listen to Echo broadcasts
+    if (window.Echo) {
+        console.log('📡 Echo available, listening to broadcasts...');
+        const channel = window.Echo.channel(`quiz.${quizSessionId}`);
+
+        channel.subscribed(() => {
+            console.log('✅ Subscribed to quiz channel:', `quiz.${quizSessionId}`);
+        });
+
+        channel.listen('.participant.joined', (data) => {
+            console.log('📢 Broadcast received:', data);
+            if (data.count !== undefined) {
+                countElement.textContent = data.count;
+                console.log('✅ Count updated via broadcast:', data.count);
+            }
+        });
+    } else {
+        console.warn('⚠️ Echo not available, will use polling only');
+    }
+
+    // Polling - check every 2 seconds
+    console.log('🔄 Starting polling...');
+    const pollInterval = setInterval(async () => {
         try {
             const response = await fetch(`/api/quiz-session/${quizSessionId}/participant-count`, {
                 headers: {
@@ -108,12 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                if (countElement && data.count !== undefined) {
-                    countElement.textContent = data.count;
+                if (data.count !== undefined) {
+                    const currentCount = parseInt(countElement.textContent);
+                    if (data.count !== currentCount) {
+                        console.log('✅ Count updated via polling:', data.count);
+                        countElement.textContent = data.count;
+                    }
                 }
+            } else {
+                console.error('❌ API error:', response.status);
             }
         } catch (error) {
-            console.error('Error fetching participant count:', error);
+            console.error('❌ Polling error:', error);
         }
     }, 2000);
 });
