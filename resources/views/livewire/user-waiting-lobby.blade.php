@@ -79,3 +79,28 @@
 
     </div>
 </div>
+
+@push('scripts')
+<script>
+console.log('Script loaded');
+
+setTimeout(() => {
+    console.log('Echo', window.Echo);
+
+    window.Echo
+        .channel('quiz.{{ session("quiz_session_id") }}')
+        .subscribed(() => {
+            console.log('SUBSCRIBED');
+        })
+        .listen('.participant.joined', (e) => {
+            console.log('EVENT RECEIVED', e);
+        });
+}, 1000);
+</script>
+<script>
+    window.Echo.channel('quiz.95')
+    .listen('ParticipantJoined', (e) => {
+        console.log('EVENT', e);
+    });
+</script>
+@endpush

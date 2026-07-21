@@ -18,7 +18,6 @@ Route::get('/', QuizLoginWithCode::class)->name('frontend.login');
 Route::get('/name-of-participant', NameOfParticipant::class)->name('frontend.name');
 Route::get('/waiting-for-others', UserWaitingLobby::class)->name('frontend.user_lobby');
 
-
 // Only reachable when logged OUT. Authenticated admins are bounced to the
 // dashboard (redirectUsersTo), and no-cache stops the back button from
 // showing a stale login page after sign-in.

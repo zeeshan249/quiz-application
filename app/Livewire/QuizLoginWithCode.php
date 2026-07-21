@@ -34,7 +34,6 @@ class QuizLoginWithCode extends FrontendComponent
         $quizSession = (new GetQuizSession)->handle(
             $this->joincode
         );
-
         if ($quizSession) {
             $this->redirectRoute(
                 'frontend.name',
@@ -53,7 +52,7 @@ class QuizLoginWithCode extends FrontendComponent
 
     public function render()
     {
-        
+
         return $this->frontend(
             view('livewire.quiz-login-with-code')
         );

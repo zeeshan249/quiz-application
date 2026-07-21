@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\ParticipantJoined;
 use App\Livewire\Components\FrontendComponent;
 use App\Models\Participant;
 use App\Models\QuizSession;
@@ -17,7 +18,7 @@ class NameOfParticipant extends FrontendComponent
     public string $participantname = '';
 
     public ?QuizSession $quizSession = null;
-   
+
     protected function rules(): array
     {
         return [
@@ -60,19 +61,23 @@ class NameOfParticipant extends FrontendComponent
             'joined_at' => now(),
         ]);
 
-           if ($create) {
+        if ($create) {
+            session([
+                'quiz_session_id' => $this->quizSession->id,
+            ]);
+
+            broadcast(new ParticipantJoined($this->quizSession->id));
+
             $this->redirectRoute(
                 'frontend.user_lobby',
                 ['joincode' => $this->quizSession->joincode,
-                 'name' => $validated['participantname']
+                    'name' => $validated['participantname'],
                 ],
                 navigate: true
             );
 
             return;
         }
-
-     
 
     }
 
