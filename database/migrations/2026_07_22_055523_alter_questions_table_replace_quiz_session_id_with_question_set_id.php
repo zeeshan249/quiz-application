@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('questions', function (Blueprint $table){
-       
-        $table->dropConstrainedForeignId('quiz_session_id');
+        Schema::table('questions', function (Blueprint $table) {
 
-        $table->foreignId('question_set_id')
-        ->after('id')
-        ->constrained('question_sets')
-        ->cascadeOnDelete();
+            $table->dropConstrainedForeignId('quiz_session_id');
+
+            $table->foreignId('question_set_id')
+                ->after('id')
+                ->constrained('question_sets')
+                ->cascadeOnDelete();
         });
     }
 

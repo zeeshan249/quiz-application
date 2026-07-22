@@ -17,9 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
 
             $table->foreignId('created_by')
-            ->constrained('users')
-            ->cascadeOnDelete();
-                
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->boolean('is_active')->default(true);
             $table->timestamps();

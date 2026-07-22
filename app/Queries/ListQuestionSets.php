@@ -17,7 +17,7 @@ final readonly class ListQuestionSets
         return QuestionSet::query()
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'like', "%{$search}%");
-                   
+
             })
             ->orderBy($sortField, $sortDirection)
             ->paginate(10);

@@ -1,11 +1,11 @@
 <?php
 
+use App\Livewire\Admin\CreateQuestionSet;
 use App\Livewire\Admin\CreateQuizSession;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Login;
-use App\Livewire\Admin\QuizSessions;
 use App\Livewire\Admin\QuestionsSet;
-use App\Livewire\Admin\CreateQuestionSet;
+use App\Livewire\Admin\QuizSessions;
 use App\Livewire\NameOfParticipant;
 use App\Livewire\QuizLoginWithCode;
 use App\Livewire\UserWaitingLobby;
@@ -44,7 +44,6 @@ Route::middleware(['admin', 'no-cache'])->group(function () {
     Route::get('/admin/create-quiz-session', CreateQuizSession::class)->name('admin.quiz-sessions.create');
     Route::get('/admin/quiz-sessions/{quizSession}/edit', CreateQuizSession::class)
         ->name('admin.quiz-sessions.edit');
-
 
     Route::get('/admin/question-sets', QuestionsSet::class)->name('admin.questions-set');
     Route::get('/admin/create-question-set', CreateQuestionSet::class)->name('admin.questions-set.create');

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('quiz_sessions', function (Blueprint $table) {
-                $table->foreignId('question_set_id')
-                    ->after('id')
-                    ->nullable();
-            });
+            $table->foreignId('question_set_id')
+                ->after('id')
+                ->nullable();
+        });
     }
 
     /**
