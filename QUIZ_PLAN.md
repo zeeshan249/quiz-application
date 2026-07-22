@@ -61,13 +61,15 @@ clients during the answer window — the correct option is only revealed in the 
 - **Dev run:** three processes — `php artisan serve`, `npm run dev`, `php artisan reverb:start`.
 
 ## 2. Data model (migrations + Eloquent models)
-- **`quiz_sessions`** — `title`, `join_code` (6-digit string), `status` enum(`lobby`/`live`/`ended`),
-  `created_by`, `started_at`, `ended_at`, `answer_seconds` (default 20), `reveal_seconds` (default 6),
-  plus **synchronized-timeline state**: `current_question_id` (nullable — added after `questions` exists to
-  avoid a circular FK), `phase` enum(`question`/`reveal`, nullable), `phase_ends_at` (authoritative deadline
-  broadcast to clients). Uniqueness of `join_code` among active sessions enforced in validation (ended codes
-  reusable).
-- **`questions`** — `quiz_session_id`, `text`, `position`, `points`, optional `time_limit`
+- **`question_sets`** — `title`, `created_by`, `created_at`, `updated_at`. Reusable templates of questions; 
+  one set can be used in multiple quiz sessions.
+- **`quiz_sessions`** — `title`, `question_set_id` (FK → `question_sets`), `join_code` (6-digit string), 
+  `status` enum(`lobby`/`live`/`ended`), `created_by`, `started_at`, `ended_at`, `answer_seconds` (default 20), 
+  `reveal_seconds` (default 6), plus **synchronized-timeline state**: `current_question_id` (nullable — added 
+  after `questions` exists to avoid a circular FK), `phase` enum(`question`/`reveal`, nullable), `phase_ends_at` 
+  (authoritative deadline broadcast to clients). Uniqueness of `join_code` among active sessions enforced in 
+  validation (ended codes reusable).
+- **`questions`** — `question_set_id`, `text`, `position`, `points`, optional `time_limit`
   (per-question override; defaults to the session `answer_seconds`).
 - **`question_options`** — `question_id`, `text`, `is_correct` (idiomatic over a JSON column).
 - **`participants`** — `quiz_session_id`, `name` (required, leaderboard label), `token` (anonymous dedupe id),
@@ -107,8 +109,9 @@ Dedicated public `layouts/quiz` layout (loads the Bootstrap `quiz.js` entry). Li
 - **`QuizResults`** — final score + live leaderboard.
 
 ## 5. Admin flow (Gentelella, behind existing admin auth)
-- **`QuizIndex`** (`/admin/quizzes`) — list/create sessions.
-- **`QuizEditor`** — manage questions/options; auto-generate or set the 6-digit code.
+- **`QuestionSetIndex`** (`/admin/question-sets`) — list/create question sets; manage questions/options per set.
+- **`QuizIndex`** (`/admin/quizzes`) — list/create sessions, each bound to an existing question set; auto-generate 
+  or set the 6-digit code.
 - **`QuizControl`** (host screen) — big join code to project, **live join counter**, **Start**/**End**
   buttons, the current question with its **live answer tally + correct/wrong bar** on reveal, and a live
   leaderboard. Start kicks off the **server-driven question sequence** (20s answer → 6s reveal → next).
@@ -134,12 +137,14 @@ Run with `php artisan test` (or `vendor/bin/pest`) after each meaningful step.
 
 ## Build order
 1. Reverb + Echo + `quiz.js` entry — prove a broadcast reaches the browser.
-2. Migrations + models.
-3. Join page (code + phone) → creates participant.
-4. **Live increment counter** end-to-end (lobby + admin control).
-5. Admin quiz/question editor + Start/End status flips.
-6. Synchronized play engine (server timeline: 20s answer → 6s reveal bar → next; answer + scoring).
-7. Leaderboard + results + tests.
+2. Migrations + models (including `question_sets` table and FK relations).
+3. Admin question set editor — create/manage question sets and their questions/options.
+4. Admin quiz session creator — select a question set, auto-generate code, set timings.
+5. Join page (code + name) → creates participant.
+6. **Live increment counter** end-to-end (lobby + admin control).
+7. Admin Start/End status flips.
+8. Synchronized play engine (server timeline: 20s answer → 6s reveal bar → next; answer + scoring).
+9. Leaderboard + results + tests.
 
 ## Trade-offs baked in
 - Public channels (no per-user auth; only aggregate data exposed; never per-option `is_correct` mid-question).
