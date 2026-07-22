@@ -28,12 +28,12 @@ it('create and test quizzes', function () {
 
     QuizSession::factory()->create([
         'title' => 'Laravel Basics',
-        'join_code' => strtoupper(Str::random(6)),
+        'join_code' => random_int(100000,999999),
     ]);
 
     QuizSession::factory()->create([
         'title' => 'PHP Basics',
-        'join_code' => strtoupper(Str::random(6)),
+        'join_code' => random_int(100000,999999),
     ]);
 
     $act = Livewire::test(QuizSessions::class)
@@ -93,35 +93,35 @@ it('pagination works as expected', function () {
 //     // This will fail
 //     expect(Auth::check())->toBeFalse();
 // });
-// it('shows an error for invalid credentials', function () {
-//     // Arrange
-//     User::factory()->create([
-//         'email' => 'admin@example.com',
-//         'password' => Hash::make('123456'),
-//         'user_type' => 1,
-//     ]);
+it('shows an error for invalid credentials', function () {
+    // Arrange
+    User::factory()->create([
+        'email' => 'admin@example.com',
+        'password' => Hash::make('123456'),
+        'user_type' => 1,
+    ]);
 
-//     // Act
-//     $component = Livewire::test(Login::class)
-//         ->set('email', 'admin@example.com')
-//         ->set('password', 'wrong-password')
-//         ->call('login');
+    // Act
+    $component = Livewire::test(Login::class)
+        ->set('email', 'admin@example.com')
+        ->set('password', 'wrong-password')
+        ->call('login');
 
-//     // Assert
-//     $component->assertHasErrors(['credentials']);
+    // Assert
+    $component->assertHasErrors(['credentials']);
 
-//     expect(Auth::check())->toBeFalse();
-// });
+    expect(Auth::check())->toBeFalse();
+});
 
-// it('validates required email and password fields', function () {
-//     // Arrange
+it('validates required email and password fields', function () {
+    // Arrange
 
-//     // Act
-//     $component = Livewire::test(Login::class)
-//         ->set('email', '')
-//         ->set('password', '')
-//         ->call('login');
+    // Act
+    $component = Livewire::test(Login::class)
+        ->set('email', '')
+        ->set('password', '')
+        ->call('login');
 
-//     // Assert
-//     $component->assertHasErrors(['email', 'password']);
-// });
+    // Assert
+    $component->assertHasErrors(['email', 'password']);
+});
