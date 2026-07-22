@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label" for="question_set_id">Question Set</label>
                         <select id="question_set_id" wire:model="question_set_id" class="form-control">
                             <option value="">Select Question Set</option>
@@ -56,6 +56,38 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('question_set_id')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label class="form-label" for="question_set_id">
+                            Question Set
+                        </label>
+
+                        <div wire:ignore x-data x-init="const control = new TomSelect($refs.questionSet, {
+                            create: false,
+                            placeholder: 'Select Question Set',
+                            allowEmptyOption: true,
+                        });
+                        
+                        control.setValue(@js($question_set_id));
+                        
+                        control.on('change', value => {
+                            $wire.set('question_set_id', value);
+                        });">
+                            <select x-ref="questionSet" id="question_set_id" >
+                                <option value="">Select Question Set</option>
+
+                                @foreach ($questionSets as $questionSet)
+                                    <option value="{{ $questionSet->id }}">
+                                        {{ $questionSet->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         @error('question_set_id')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror

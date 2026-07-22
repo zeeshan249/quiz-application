@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Database\Eloquent\Collection;
 
 #[Title('Quiz Sessions')]
 
@@ -23,7 +24,7 @@ class CreateQuizSession extends Component
 
     public ?QuizSession $quizSession = null;
 
-    public array|\Illuminate\Support\Collection $questionSets;
+    public Collection $questionSets;
 
     public ?int $question_set_id = null;
 

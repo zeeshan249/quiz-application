@@ -7,6 +7,7 @@
 
     <title>{{ $title ?? config('app.name') }}</title>
 
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
 
 
     {{-- Gentelella CSS --}}
@@ -116,7 +117,7 @@
 
      <script type="module" crossorigin src="{{ asset('js/main-v4-BFwmMcfm.js') }}"></script> 
 
- 
+ <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
     {{-- Show/hide the account menu above. Also blocks the Gentelella bundle's own
          demo avatar menu (toast-only "Sign out") so only our HTML menu appears. --}}
