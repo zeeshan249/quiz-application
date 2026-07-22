@@ -6,7 +6,7 @@
                 <h1 class="page-title">Question Sets</h1>
             </div>
             <div class="page-actions">
-            
+
                 <a class="btn btn-primary" href="{{ route('admin.questions-set.create') }}" wire:navigate>
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M4 8h8M8 4v8" />
@@ -16,11 +16,11 @@
             </div>
         </div>
     </div>
-@if (session()->has('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+    @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
@@ -29,7 +29,8 @@
             </div>
 
             <div style="width:300px">
-                <input type="text" class="form-control" placeholder="Search..." wire:model.live.debounce.300ms="search">
+                <input type="text" class="form-control" placeholder="Search..."
+                    wire:model.live.debounce.300ms="search">
             </div>
         </div>
 
@@ -51,17 +52,14 @@
 
                             <td>{{ $value->description }}</td>
 
-                           
 
-                           <td class="text-end">
-                            <a
-                                href="{{ route('admin.quiz-sessions.edit', $value) }}"
-                                wire:navigate
-                                class="btn btn-sm btn-outline-primary"
-                            >
-                                Edit
-                            </a>
-                        </td>
+
+                            <td class="text-end">
+                                <a href="{{ route('admin.questions-set.edit', $value) }}" wire:navigate
+                                    class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -70,11 +68,11 @@
                     @endforelse
                 </tbody>
             </table>
-          
+
             {{-- <div class="card-footer d-flex justify-content-end">
                 {{ $quizzes->links() }}
             </div> --}}
-             <div class="card-footer">
+            <div class="card-footer">
                 <x-pagination :paginator="$questions" id="quiz-sessions-info" />
             </div>
         </div>
