@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\QuizSession;
+use App\Models\QuestionSet;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -21,6 +22,10 @@ class CreateQuizSession extends Component
     public string $status = 'draft';
 
     public ?QuizSession $quizSession = null;
+
+    public array|\Illuminate\Support\Collection $questionSets;
+
+    public ?int $question_set_id = null;
 
     protected function rules(): array
     {
@@ -41,17 +46,23 @@ class CreateQuizSession extends Component
                 'required',
                 Rule::in(['draft', 'lobby', 'live']),
             ],
+            'question_set_id' => [
+                'nullable'
+            ]
         ];
     }
 
     public function mount(?QuizSession $quizSession = null): void
     {
+          $this->questionSets = QuestionSet::orderBy('title')->get();
         if ($quizSession && $quizSession->exists) {
             $this->quizSession = $quizSession;
 
             $this->title = $quizSession->title;
             $this->join_code = $quizSession->join_code;
             $this->status = $quizSession->status;
+            $this->question_set_id = $quizSession->question_set_id;
+          
         }
     }
 
@@ -73,6 +84,7 @@ class CreateQuizSession extends Component
             'title' => $validated['title'],
             'join_code' => $validated['join_code'],
             'status' => $validated['status'],
+            'question_set_id' => $validated['question_set_id'],
             'created_by' => auth()->id(),
         ]);
 
@@ -84,11 +96,12 @@ class CreateQuizSession extends Component
     public function update(): void
     {
         $validated = $this->validate();
-
+     
         $this->quizSession->update([
             'title' => $validated['title'],
             'join_code' => $validated['join_code'],
             'status' => $validated['status'],
+            'question_set_id' => $validated['question_set_id'],
         ]);
 
         session()->flash('success', 'Quiz session updated successfully.');
