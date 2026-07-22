@@ -38,6 +38,7 @@
                                 <option value="draft">Draft</option>
                                 <option value="lobby">Lobby</option>
                                 <option value="live">Live</option>
+                                <option value="ended">Ended</option>
                             </select>
                             @error('status')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>

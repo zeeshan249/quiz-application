@@ -20,7 +20,7 @@ class CreateQuizSession extends Component
 
     public string $join_code = '';
 
-    public string $status = 'draft';
+    public string $status = '';
 
     public ?QuizSession $quizSession = null;
 
@@ -45,7 +45,7 @@ class CreateQuizSession extends Component
             ],
             'status' => [
                 'required',
-                Rule::in(['draft', 'lobby', 'live']),
+                Rule::in(['draft', 'lobby', 'live', 'ended']),
             ],
             'question_set_id' => [
                 'nullable',
