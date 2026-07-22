@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -28,12 +27,12 @@ it('create and test quizzes', function () {
 
     QuizSession::factory()->create([
         'title' => 'Laravel Basics',
-        'join_code' => random_int(100000,999999),
+        'join_code' => random_int(100000, 999999),
     ]);
 
     QuizSession::factory()->create([
         'title' => 'PHP Basics',
-        'join_code' => random_int(100000,999999),
+        'join_code' => random_int(100000, 999999),
     ]);
 
     $act = Livewire::test(QuizSessions::class)

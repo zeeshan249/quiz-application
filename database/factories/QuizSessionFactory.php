@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\QuizSession;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<QuizSession>
@@ -22,7 +21,7 @@ class QuizSessionFactory extends Factory
 
         return [
             'title' => fake()->sentence(3),
-            'join_code' => random_int(100000,999999),
+            'join_code' => random_int(100000, 999999),
             'status' => 'draft',
             'created_by' => User::factory(),
 

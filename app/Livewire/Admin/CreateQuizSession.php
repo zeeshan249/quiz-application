@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\QuizSession;
 use App\Models\QuestionSet;
+use App\Models\QuizSession;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Database\Eloquent\Collection;
 
 #[Title('Quiz Sessions')]
 
@@ -48,14 +48,14 @@ class CreateQuizSession extends Component
                 Rule::in(['draft', 'lobby', 'live']),
             ],
             'question_set_id' => [
-                'nullable'
-            ]
+                'nullable',
+            ],
         ];
     }
 
     public function mount(?QuizSession $quizSession = null): void
     {
-          $this->questionSets = QuestionSet::orderBy('title')->get();
+        $this->questionSets = QuestionSet::orderBy('title')->get();
         if ($quizSession && $quizSession->exists) {
             $this->quizSession = $quizSession;
 
@@ -63,7 +63,7 @@ class CreateQuizSession extends Component
             $this->join_code = $quizSession->join_code;
             $this->status = $quizSession->status;
             $this->question_set_id = $quizSession->question_set_id;
-          
+
         }
     }
 
@@ -97,7 +97,7 @@ class CreateQuizSession extends Component
     public function update(): void
     {
         $validated = $this->validate();
-     
+
         $this->quizSession->update([
             'title' => $validated['title'],
             'join_code' => $validated['join_code'],
