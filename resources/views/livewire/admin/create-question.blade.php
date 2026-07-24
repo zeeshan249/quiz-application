@@ -8,15 +8,15 @@
                 </div>
             </div>
             <div class="card-body">
-                <form wire:submit="{{ $quizSession ? 'update' : 'save' }}">
+                <form wire:submit="{{ $question ? 'update' : 'save' }}">
                     <div class="form-group">
-                        <label class="form-label" for="projectName">Title<span class="required">*</span></label>
-                        <input type="text" wire:model.blur="title" name="title" id="projectName"
+                        <label class="form-label" for="questionText">Question Text<span class="required">*</span></label>
+                        <input type="text" wire:model.blur="text" name="text" id="questionText"
                             class="form-control" placeholder="">
-                        @error('title')
+                        @error('text')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
-                        <div class="form-help">A short, recognizable Question Title</div>
+                        <div class="form-help">A short, recognizable Question Text</div>
                     </div>
 
 
@@ -28,6 +28,7 @@
                     <div class="form-group">
                         <label class="form-label" for="question_set_id">
                             Question Set
+                            <span class="required">*</span>
                         </label>
 
                         <div wire:ignore x-data x-init="const control = new TomSelect($refs.questionSet, {
@@ -72,7 +73,7 @@
 
                                 <div class="col-auto">
 
-                                    <input type="checkbox" x-model.blur="option.is_correct" :id="'correct-option-' + index"
+                                    <input type="checkbox" x-model="option.is_correct" :id="'correct-option-' + index"
                                         class="form-check-input"
                                         :aria-label="'Mark option ' + (index + 1) + ' as correct'">
 
@@ -104,11 +105,18 @@
                         </button>
                     </div>
 
+                    @error('options')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                    @error('options.*.text')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+
 
                     <div class="form-actions right">
-                        <button type="submit" class="btn btn-primary" wire:loading.attr="diabled">
-                            <span wire:loading.remove>{{ $quizSession ? 'Update Session' : 'Create Session' }}</span>
-                            <span wire:loading>{{ $quizSession ? 'Updating...' : 'Creating...' }}</span>
+                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                            <span wire:loading.remove>{{ $question ? 'Update Question' : 'Create Question' }}</span>
+                            <span wire:loading>{{ $question ? 'Updating...' : 'Creating...' }}</span>
                         </button>
                     </div>
                 </form>

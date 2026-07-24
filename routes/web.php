@@ -54,7 +54,7 @@ Route::middleware(['admin', 'no-cache'])->group(function () {
 
     Route::get('/admin/questions', Question::class)->name('admin.questions');
     Route::get('/admin/create-question', CreateQuestion::class)->name('admin.questions.create');
-    Route::get('/admin/question/{question}/edit', Question::class)
+    Route::get('/admin/question/{question}/edit', CreateQuestion::class)
         ->name('admin.questions.edit');
 
     // Logs the admin out, kills the session, and rotates the CSRF token

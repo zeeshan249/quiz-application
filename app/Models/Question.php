@@ -11,6 +11,14 @@ class Question extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'question_set_id',
+        'text',
+        'position',
+        'points',
+        'time_limit',
+    ];
+
     public function questionSet(): BelongsTo
     {
         return $this->belongsTo(QuestionSet::class, 'question_set_id', 'id');

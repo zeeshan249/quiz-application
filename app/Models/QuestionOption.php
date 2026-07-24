@@ -10,6 +10,13 @@ class QuestionOption extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'question_id',
+        'text',
+        'is_correct',
+        'position',
+    ];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(
