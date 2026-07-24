@@ -15,8 +15,12 @@ final readonly class ListQuestions
         string $sortDirection = 'asc'
     ): LengthAwarePaginator {
         return Question::query()
+          ->with(['questionSet'])
             ->when($search, function ($query) use ($search) {
-                $query->where('text', 'like', "%{$search}%");
+                $query->where('text', 'like', "%{$search}%")
+                ->orWhereHas('questionSet',function($query) use ($search){
+                    $query->where('title','like',"%{$search}%");
+                });
 
             })
             ->orderBy($sortField, $sortDirection)
