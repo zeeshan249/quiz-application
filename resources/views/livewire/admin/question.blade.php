@@ -49,11 +49,11 @@
                     @forelse ($questions as $value)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $value->title }}</td>
-                            <td>{{ $value->description }}</td>
+                            <td>{{ $value->questionSet?->title??'' }}</td>
+                            <td>{{ $value->text }}</td>
 
                             <td class="text-end">
-                                <a href="{{ route('admin.questions-set.edit', $value) }}" wire:navigate
+                                <a href="{{ route('admin.questions.edit', $value) }}" wire:navigate
                                     class="btn btn-sm btn-outline-primary">
                                     Edit
                                 </a>
