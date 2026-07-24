@@ -28,8 +28,16 @@ class CreateQuestion extends Component
     public ?int $question_set_id = null;
 
     public array $options = [
-        ['text' => '', 'is_correct' => false],
-        ['text' => '', 'is_correct' => false],
+        [
+        'id' => 1,
+        'text' => '', 
+        'is_correct' => false
+        ],
+         [
+        'id' => 2,
+        'text' => '', 
+        'is_correct' => false
+        ],
     ];
 
     public function mount(?QuizSession $quizSession = null): void

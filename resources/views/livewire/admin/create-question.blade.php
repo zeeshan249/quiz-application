@@ -66,13 +66,13 @@
                             <span class="required">*</span>
                         </label>
 
-                        <template x-for="(option,index) in options" :key="index">
+                        <template x-for="(option,index) in options" :key="option.id">
 
                             <div class="row align-items-center mb-2">
 
                                 <div class="col-auto">
 
-                                    <input type="checkbox" x-model="option.is_correct" :id="'correct-option-' + index"
+                                    <input type="checkbox" x-model.blur="option.is_correct" :id="'correct-option-' + index"
                                         class="form-check-input"
                                         :aria-label="'Mark option ' + (index + 1) + ' as correct'">
 
@@ -80,7 +80,7 @@
 
                                 <div class="col">
 
-                                    <input type="text" class="form-control" x-model="option.text"
+                                    <input type="text" class="form-control" x-model.blur="option.text"
                                         :placeholder="'Option ' + (index + 1)">
 
                                 </div>
@@ -137,6 +137,7 @@
                     }
 
                     this.options.push({
+                        id: Date.now() + Math.random(),
                         text: '',
                         is_correct: false
                     });
