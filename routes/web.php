@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\CreateQuestion;
 use App\Livewire\Admin\CreateQuestionSet;
 use App\Livewire\Admin\CreateQuizSession;
 use App\Livewire\Admin\Dashboard;
@@ -52,7 +53,7 @@ Route::middleware(['admin', 'no-cache'])->group(function () {
         ->name('admin.questions-set.edit');
 
     Route::get('/admin/questions', Question::class)->name('admin.questions');
-    Route::get('/admin/create-question', Question::class)->name('admin.questions.create');
+    Route::get('/admin/create-question', CreateQuestion::class)->name('admin.questions.create');
     Route::get('/admin/question/{question}/edit', Question::class)
         ->name('admin.questions.edit');
 

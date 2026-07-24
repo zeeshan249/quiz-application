@@ -7,7 +7,7 @@
             </div>
             <div class="page-actions">
 
-                <a class="btn btn-primary" href="{{ route('admin.questions-set.create') }}" wire:navigate>
+                <a class="btn btn-primary" href="{{ route('admin.questions.create') }}" wire:navigate>
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M4 8h8M8 4v8" />
                     </svg>
