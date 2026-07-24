@@ -198,6 +198,15 @@
                 <span class="nav-text">Question Set</span>
             </x-layouts.nav-link>
 
+
+            <x-layouts.nav-link href="{{ route('admin.questions') }}" :active="request()->routeIs('admin.questions')"  wire:navigate>
+                    <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9l1-5h16l1 5M3 9v10a2 2 0 002 2h14a2 2 0 002-2V9M3 9h18" />
+                    <path d="M9 13a3 3 0 006 0" />
+                </svg>
+                <span class="nav-text">Questions</span>
+            </x-layouts.nav-link>
             {{-- <a class="nav-link" href="product_detail.html">
                 <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5">

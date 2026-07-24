@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             QuizSessionSeeder::class,
             QuestionSetSeeder::class,
+            QuestionSeeder::class,
+            QuestionOptionSeeder::class,
         ]);
     }
 }

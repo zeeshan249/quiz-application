@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\QuestionSet;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionSetSeeder extends Seeder
@@ -14,7 +13,7 @@ class QuestionSetSeeder extends Seeder
      */
     public function run(): void
     {
-       $user = User::first() ?? User::factory()->create();
+        $user = User::first() ?? User::factory()->create();
 
         foreach (range('A', 'J') as $letter) {
             QuestionSet::create([
@@ -23,5 +22,6 @@ class QuestionSetSeeder extends Seeder
                 'created_by' => $user->id,
             ]);
         }
+
     }
 }

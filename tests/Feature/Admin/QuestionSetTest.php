@@ -31,14 +31,14 @@ it('Create And test Question Set', function () {
         ->assertDontSee('Question Set B');
 });
 
-it('pagination works as expected',function(){
+it('pagination works as expected', function () {
 
- $questionSet=QuestionSet::factory()->count(15)->create();
+    $questionSet = QuestionSet::factory()->count(15)->create();
 
- Livewire::test(QuestionsSet::class)
-         ->assertSee($questionSet->last()->title)
-         ->call('gotoPage',2)
-         ->assertStatus(200);
+    Livewire::test(QuestionsSet::class)
+        ->assertSee($questionSet->last()->title)
+        ->call('gotoPage', 2)
+        ->assertStatus(200);
 
 });
 
