@@ -50,13 +50,75 @@
         .code-input::placeholder {
             color: #dbd9e1;
         }
+        .quiz-notification{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    border-left: 5px solid #0d6efd;
+    z-index: 9999;
+    display: none;
+}
+
+.quiz-title{
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.quiz-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(500px, calc(100% - 2rem));
+
+    background: #fff;
+    border-radius: 12px;
+    border-left: 5px solid #0d6efd;
+    padding: 18px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+
+    display: none;
+    z-index: 9999;
+}
     </style>
 @endpush
 
-<div class="d-flex justify-content-center align-items-center min-vh-100">
-    <div class="code-card text-center">
 
-        <div class="mb-4">
+
+
+
+<div>
+
+    {{-- Floating notification --}}
+    <div id="quiz-notification" class="quiz-notification" wire:ignore>
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <div class="quiz-title">🎯 Quiz Starting</div>
+                <div id="quiz-message"></div>
+            </div>
+
+            <div class="fw-bold fs-5">
+                <span id="quiz-countdown">20</span>s
+            </div>
+        </div>
+
+        <div class="progress mt-3" style="height:6px;">
+            <div id="quiz-progress" class="progress-bar bg-success"></div>
+        </div>
+    </div>
+
+    {{-- Centered waiting card --}}
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+
+        <div class="code-card text-center">
+
             <div class="spinner-border text-primary mb-3" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -69,18 +131,21 @@
             </p>
 
             <h4 class="fw-bold">
-                <span data-participant-count>{{ $participantCount ?? 0 }}</span> Participants Joined
+                <span data-participant-count>{{ $participantCount }}</span>
+                Participants Joined
             </h4>
 
             <small class="text-muted">
                 The quiz will begin automatically when the host starts it.
             </small>
+
         </div>
 
     </div>
+
 </div>
 
-@script
+{{-- @script
     <script>
         window.Echo.channel('quiz.{{ $quizSessionId }}')
             .listen('.participant.joined', (e) => {
@@ -90,10 +155,67 @@
                 });
             });
     </script>
-    <script>
-   window.Echo.channel('quiz.73')
+ <script>
+window.Echo.channel('quiz.{{ $quizSessionId }}')
     .listen('.quiz.started', (e) => {
         console.log('received', e);
+
+        Livewire.dispatch('quiz-started', {
+            startedAt: e.started_at,
+            message: e.message,
+        });
     });
-    </script>
+</script>
+@endscript --}}
+@script
+
+<script>
+const channel = window.Echo.channel('quiz.{{ $quizSessionId }}');
+
+channel.listen('.participant.joined', (e) => {
+    Livewire.dispatch('participant-joined', {
+        count: e.count,
+        quizSessionId: e.quizSessionId,
+    });
+});
+
+channel.listen('.quiz.started', (e) => {
+
+    const box = document.getElementById('quiz-notification');
+    const message = document.getElementById('quiz-message');
+    const countdown = document.getElementById('quiz-countdown');
+    const progress = document.getElementById('quiz-progress');
+
+    let seconds = 20;
+
+    message.innerText = e.message;
+    countdown.innerText = seconds;
+
+    box.style.display = 'block';
+
+    progress.style.width = "100%";
+
+    const timer = setInterval(() => {
+
+        seconds--;
+
+        countdown.innerText = seconds;
+
+        progress.style.width = `${(seconds / 20) * 100}%`;
+
+        if (seconds <= 0) {
+
+            clearInterval(timer);
+
+            box.style.display = 'none';
+
+            // Start quiz / redirect here
+            // window.location.href = '/quiz';
+
+        }
+
+    }, 1000);
+
+});
+</script>
 @endscript

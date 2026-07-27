@@ -14,8 +14,7 @@ class QuizStarted implements ShouldBroadcastNow
     public function __construct(
         public int $quizSessionId,
         public int $startedAt,
-    ) {
-    }
+    ) {}
 
     public function broadcastOn(): array
     {

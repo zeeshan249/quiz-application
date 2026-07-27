@@ -14,6 +14,7 @@
     {{ $head ?? '' }}
 
     @stack('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
@@ -21,8 +22,9 @@
     {{ $slot??'' }}
 
     @livewireScripts
-
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     @stack('scripts')
+    
 
 </body>
 

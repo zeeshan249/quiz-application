@@ -31,17 +31,12 @@ class UserWaitingLobby extends FrontendComponent
         $this->participantCount = $count;
     }
 
-    #[On('quiz-started')]
-    public function quizStarted(int $startedAt, string $message): void
-    { dd('Hi');
-        logger()->info('Quiz started', [
-            'startedAt' => $startedAt,
-            'message' => $message,
-        ]);
+    #[On('echo:quiz.{quizSessionId},quiz.started')]
+    public function quizStarted($event): void
+    {
+        logger()->info('QuizStarted received', $event);
 
-        $this->dispatch('show-toast', [
-            'message' => $message,
-        ]);
+        dd($event);
     }
 
     public function refreshCount()

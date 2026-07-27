@@ -95,47 +95,54 @@ class CreateQuizSession extends Component
         $this->redirectRoute('admin.quiz-sessions', navigate: true);
     }
 
-  public function update(): void
-{
-    $validated = $this->validate();
-
-    $this->quizSession->update([
-        'title' => $validated['title'],
-        'join_code' => $validated['join_code'],
-        'status' => $validated['status'],
-        'question_set_id' => $validated['question_set_id'],
-    ]);
-
-    if ($validated['status'] === 'live') {
-        
-        $firstQuestion = $this->quizSession
-            ->questionSet
-            ->questions()
-            ->orderBy('id')
-            ->first();
-      
-        abort_if(! $firstQuestion, 422, 'No questions found in the selected question set.');
-
-        // Store the start time in a variable
-        $startedAt = now()->addSeconds(20);
+    public function update(): void
+    {
+        $validated = $this->validate();
 
         $this->quizSession->update([
-            'started_at' => $startedAt,
-            'current_question_id' => $firstQuestion->id,
-            'phase' => 'question',
-            'phase_ends_at' => $startedAt->copy()->addSeconds($this->quizSession->answer_seconds),
+            'title' => $validated['title'],
+            'join_code' => $validated['join_code'],
+            'status' => $validated['status'],
+            'question_set_id' => $validated['question_set_id'],
         ]);
 
-        broadcast(new QuizStarted(
-            $this->quizSession->id,
-            $startedAt->timestamp,
-        ));
+        if ($validated['status'] === 'live') {
+
+            $firstQuestion = $this->quizSession
+                ->questionSet
+                ->questions()
+                ->orderBy('id')
+                ->first();
+
+            abort_if(! $firstQuestion, 422, 'No questions found in the selected question set.');
+
+            // Store the start time in a variable
+            $startedAt = now()->addSeconds(20);
+
+            $this->quizSession->update([
+                'started_at' => $startedAt,
+                'current_question_id' => $firstQuestion->id,
+                'phase' => 'question',
+                'phase_ends_at' => $startedAt->copy()->addSeconds($this->quizSession->answer_seconds),
+            ]);
+
+            logger()->info('Broadcasting QuizStarted', [
+                'quiz_session_id' => $this->quizSession->id,
+                'started_at' => $startedAt->timestamp,
+            ]);
+
+            broadcast(new QuizStarted(
+                $this->quizSession->id,
+                $startedAt->timestamp,
+            ));
+
+            logger()->info('QuizStarted broadcast sent');
+        }
+
+        session()->flash('success', 'Quiz session updated successfully.');
+
+        $this->redirectRoute('admin.quiz-sessions', navigate: true);
     }
-
-    session()->flash('success', 'Quiz session updated successfully.');
-
-    $this->redirectRoute('admin.quiz-sessions', navigate: true);
-}
 
     public function render()
     {

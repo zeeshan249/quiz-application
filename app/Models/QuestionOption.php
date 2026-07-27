@@ -25,5 +25,5 @@ class QuestionOption extends Model
             'id'           // owner key on RELATED table (questions)            //pk
         );
     }
-    //question_options table e bose question_id ta holo 2nd arg and 3rd arg holo refference table er in belongsTo
+    // question_options table e bose question_id ta holo 2nd arg and 3rd arg holo refference table er in belongsTo
 }

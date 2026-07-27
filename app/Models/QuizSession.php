@@ -20,10 +20,8 @@ class QuizSession extends Model
 
     public function questionSet(): BelongsTo
     {
-        return $this->belongsTo(QuestionSet::class,'question_set_id','id');
+        return $this->belongsTo(QuestionSet::class, 'question_set_id', 'id');
     }
-
-    
 }
 // belongsTo → "I have the foreign key."
 // hasOne / hasMany → "The other table has the foreign key."
