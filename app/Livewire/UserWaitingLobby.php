@@ -31,6 +31,19 @@ class UserWaitingLobby extends FrontendComponent
         $this->participantCount = $count;
     }
 
+    #[On('quiz-started')]
+    public function quizStarted(int $startedAt, string $message): void
+    { dd('Hi');
+        logger()->info('Quiz started', [
+            'startedAt' => $startedAt,
+            'message' => $message,
+        ]);
+
+        $this->dispatch('show-toast', [
+            'message' => $message,
+        ]);
+    }
+
     public function refreshCount()
     {
         $this->participantCount = Participant::where(

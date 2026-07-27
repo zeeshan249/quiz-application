@@ -90,4 +90,10 @@
                 });
             });
     </script>
+    <script>
+   window.Echo.channel('quiz.73')
+    .listen('.quiz.started', (e) => {
+        console.log('received', e);
+    });
+    </script>
 @endscript
