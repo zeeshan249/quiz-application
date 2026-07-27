@@ -11,10 +11,12 @@ class QuestionSet extends Model
 
     public function questions()
     {
-        return $this->hasMany(
-            Question::class,
-            'question_set_id', // related table
-            'id'               // current table
+        return $this->hasMany(  // 3 parmaters
+            Question::class,    //question table
+            'question_set_id', // related table  Foreign Key
+            'id'               // current table  Primary Key
         );
     }
 }
+// for question_set table  its pk is id which reffers to Question table question_set_id Has many
+//question set e bose jodi question set er question id te point kory hasmnay te  tale related table e 2nd arg then 3rd arg nijer
