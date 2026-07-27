@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\QuizSession;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class QuestionSet extends Model
 {
@@ -16,6 +18,10 @@ class QuestionSet extends Model
             'question_set_id', // related table  Foreign Key
             'id'               // current table  Primary Key
         );
+    }
+    public function quizSessions(): HasMany
+    {
+        return $this->hasMany(QuizSession::class,'question_set_id','id');
     }
 }
 // for question_set table  its pk is id which reffers to Question table question_set_id Has many

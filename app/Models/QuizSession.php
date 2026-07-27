@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuizSession extends Model
 {
@@ -16,4 +17,11 @@ class QuizSession extends Model
             'ended_at' => 'datetime',
         ];
     }
+
+    public function questionSet(): BelongsTo
+    {
+        return $this->belongsTo(QuestionSet::class,'question_set_id','id');
+    }
+
+    
 }
