@@ -25,3 +25,5 @@ class QuizSession extends Model
 
     
 }
+// belongsTo → "I have the foreign key."
+// hasOne / hasMany → "The other table has the foreign key."
