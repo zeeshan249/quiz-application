@@ -128,6 +128,101 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {{-- <div
+    x-data="{
+        options: @entangle('options'),
+
+        add() {
+            if (this.options.length >= 6) return;
+
+            this.options.push({
+                id: Date.now() + Math.random(),
+                text: '',
+                is_correct: false
+            });
+        },
+
+        remove(index) {
+            if (this.options.length <= 2) return;
+
+            this.options.splice(index, 1);
+        }
+    }"
+    class="form-group"
+>
+    <label class="form-label">
+        Question Options
+        <span class="required">*</span>
+    </label>
+
+    <template x-for="(option, index) in options" :key="option.id">
+        <div class="row align-items-center mb-2">
+            <div class="col-auto">
+                <input
+                    type="checkbox"
+                    class="form-check-input"
+                    x-model="option.is_correct"
+                    :id="'correct-option-' + index"
+                    :aria-label="'Mark option ' + (index + 1) + ' as correct"
+                >
+            </div>
+
+            <div class="col">
+                <input
+                    type="text"
+                    class="form-control"
+                    x-model.blur="option.text"
+                    :placeholder="'Option ' + (index + 1)"
+                >
+            </div>
+
+            <div class="col-auto">
+                <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    x-show="options.length > 2"
+                    @click="remove(index)"
+                >
+                    Remove
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <button
+        type="button"
+        class="btn btn-outline-primary btn-sm mt-2"
+        x-show="options.length < 6"
+        @click="add()"
+    >
+        + Add Option
+    </button>
+</div> --}}
+
     {{-- The whole future lies in uncertainty: live immediately. - Seneca --}}
 </div>
 @push('scripts')
