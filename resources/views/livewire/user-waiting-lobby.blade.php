@@ -209,6 +209,8 @@ channel.listen('.quiz.started', (e) => {
 
             box.style.display = 'none';
 
+             Livewire.dispatch('countdown-finished');
+
             // Start quiz / redirect here
              window.location.href = '/live-quiz';
 

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Livewire\Components\FrontendComponent;
 use App\Models\Participant;
+use App\Models\QuizSession;
 use Livewire\Attributes\On;
 
 class UserWaitingLobby extends FrontendComponent
@@ -17,6 +18,12 @@ class UserWaitingLobby extends FrontendComponent
         $this->quizSessionId = session('quiz_session_id');
 
         abort_if(! $this->quizSessionId, 404);
+
+       $quizSession = QuizSession::findOrFail($this->quizSessionId);
+
+    if ($quizSession->status === 'live') {
+        $this->redirectRoute('frontend.quiz_live');
+    }
 
         $this->participantCount = Participant::where(
             'quiz_session_id',
@@ -34,9 +41,13 @@ class UserWaitingLobby extends FrontendComponent
     #[On('echo:quiz.{quizSessionId},quiz.started')]
     public function quizStarted($event): void
     {
-        logger()->info('QuizStarted received', $event);
+        // logger()->info('QuizStarted received', $event);
 
-        dd($event);
+        // dd($event);
+          $this->dispatch('quiz-started', [
+        'started_at' => $event['started_at'],
+        'message' => $event['message'],
+    ]);
     }
 
     public function refreshCount()
