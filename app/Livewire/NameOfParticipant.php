@@ -64,6 +64,7 @@ class NameOfParticipant extends FrontendComponent
         if ($create) {
             session([
                 'quiz_session_id' => $this->quizSession->id,
+                'participant_id' => $create->id,
             ]);
 
             broadcast(new ParticipantJoined($this->quizSession->id));
