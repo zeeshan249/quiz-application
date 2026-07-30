@@ -1,0 +1,118 @@
+@push('styles')
+    <style>
+
+          body {
+    background:  linear-gradient(#cabeff 0%, #e6deff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+       .quiz-wrapper {
+    background: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 35px;
+    width: 100%;
+    max-width: 1100px;
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+  }
+
+  .question-area {
+    border: 2px solid #c7d2fe;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 40px;
+    min-height: 100px;
+    background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  }
+
+  .question-area span {
+    color: #4f46e5 !important;
+    font-size: 1.05rem;
+  }
+
+  .answer-box {
+    border: 2px solid #c7d2fe;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #fff;
+    color: #374151;
+    font-weight: 500;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .answer-box:hover {
+    background-color: #eef2ff;
+    border-color: #a5b4fc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(99, 102, 241, 0.15);
+  }
+
+  .answer-box.selected {
+    border: 2px solid #4f46e5;
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    color: #4338ca;
+    box-shadow: 0 6px 14px rgba(79, 70, 229, 0.25);
+  }
+
+  .answer-row {
+    margin-bottom: 25px;
+  }
+    </style>
+@endpush
+
+
+
+
+
+
+
+<div class="quiz-wrapper">
+
+  <div class="question-area">
+    <span class="text-primary fw-semibold">Question Area</span>
+  </div>
+
+  <div class="row answer-row g-4">
+    <div class="col-md-6">
+      <div class="answer-box" data-answer="a">Answer A</div>
+    </div>
+    <div class="col-md-6">
+      <div class="answer-box" data-answer="b">Answer B</div>
+    </div>
+  </div>
+
+  <div class="row answer-row g-4">
+    <div class="col-md-6">
+      <div class="answer-box" data-answer="c">Answer C</div>
+    </div>
+    <div class="col-md-6">
+      <div class="answer-box selected" data-answer="d">Answer D</div>
+    </div>
+  </div>
+
+  <button class="btn w-100 mt-2" id="submitBtn" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #fff; border: none; border-radius: 12px; padding: 12px; font-weight: 600; box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);">Submit</button>
+
+</div>
+
+
+
+@script
+
+<script>
+  document.querySelectorAll('.answer-box').forEach(box => {
+    box.addEventListener('click', () => {
+      document.querySelectorAll('.answer-box').forEach(b => b.classList.remove('selected'));
+      box.classList.add('selected');
+    });
+  });
+</script>
+@endscript

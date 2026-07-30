@@ -70,7 +70,7 @@
 
                             <td>{{ $value->started_at ? $value->started_at->format('M d, Y') : '-' }}</td>
 
-                            <td>{{ $value->started_at ? $value->started_at->format('M d, Y') : '-' }}</td>
+                            <td>{{ $value->ended_at ? $value->ended_at->format('M d, Y') : '-' }}</td>
 
                            <td class="text-end">
                             <a

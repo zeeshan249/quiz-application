@@ -9,6 +9,7 @@ use App\Livewire\Admin\Question;
 use App\Livewire\Admin\QuestionsSet;
 use App\Livewire\Admin\QuizSessions;
 use App\Livewire\NameOfParticipant;
+use App\Livewire\QuizLive;
 use App\Livewire\QuizLoginWithCode;
 use App\Livewire\UserWaitingLobby;
 use App\Models\Participant;
@@ -16,12 +17,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 Route::get('/', QuizLoginWithCode::class)->name('frontend.login');
 Route::get('/name-of-participant', NameOfParticipant::class)->name('frontend.name');
 Route::get('/waiting-for-others', UserWaitingLobby::class)->name('frontend.user_lobby');
+Route::get('/live-quiz', QuizLive::class)->name('frontend.quiz_live');
 
 // API endpoint for participant count
 Route::get('/api/quiz-session/{quizSessionId}/participant-count', function ($quizSessionId) {

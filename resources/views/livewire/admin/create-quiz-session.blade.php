@@ -76,7 +76,7 @@
                         control.setValue(@js($question_set_id));
                         
                         control.on('change', value => {
-                            $wire.set('question_set_id', value);
+                          $wire.set('question_set_id', value, false);
                         });">
                             <select x-ref="questionSet" id="question_set_id" >
                                 <option value="">Select Question Set</option>

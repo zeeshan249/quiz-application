@@ -49,7 +49,7 @@ class CreateQuizSession extends Component
                 Rule::in(['draft', 'lobby', 'live', 'ended']),
             ],
             'question_set_id' => [
-                'nullable',
+                'required',
             ],
         ];
     }
@@ -75,6 +75,7 @@ class CreateQuizSession extends Component
             'join_code.integer' => 'The join code must be a  number.',
             'join_code.unique' => 'This join code is already in use.',
             'join_code.between' => 'The join code must be exactly 6 digits.',
+            'question_set_id.required' => 'Please Select A Question',
         ];
     }
 

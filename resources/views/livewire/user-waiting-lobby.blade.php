@@ -210,7 +210,7 @@ channel.listen('.quiz.started', (e) => {
             box.style.display = 'none';
 
             // Start quiz / redirect here
-            // window.location.href = '/quiz';
+             window.location.href = '/live-quiz';
 
         }
 

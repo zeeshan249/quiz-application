@@ -44,7 +44,7 @@ class QuizSessionSeeder extends Seeder
                     : null,
 
                 'started_at' => $startedAt,
-                'ended_at' => $endedAt,
+                 'ended_at' => NULL,
             ]);
         }
     }
