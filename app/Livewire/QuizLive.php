@@ -17,6 +17,8 @@ class QuizLive extends FrontendComponent
 
     public ?int $selectedOptionId = null;
 
+    public ?int $quizSessionId = null; // new public property
+
     public ?bool $isCorrect = null;
 
     public int $pointsAwarded = 0;
@@ -37,6 +39,10 @@ class QuizLive extends FrontendComponent
 
         $quiz = QuizSession::query()->findOrFail(session('quiz_session_id'));
         abort_if($quiz->status !== 'live', 404);
+
+
+          $this->quizSessionId = $quiz->id; // store it — this is what was missing
+
 
         $participant = Participant::query()
             ->whereKey(session('participant_id'))  //this is the primary key
@@ -195,6 +201,28 @@ class QuizLive extends FrontendComponent
 
        
     }
+
+
+            protected function getListeners(): array
+        {
+            return [
+                "echo:quiz-session.{$this->quizSessionId},QuestionAdvanced" => 'onQuestionAdvanced',
+                "echo:quiz-session.{$this->quizSessionId},QuizEnded" => 'onQuizEnded',
+            ];
+        }
+
+        public function onQuestionAdvanced(array $event): void
+        {
+            $this->reset(['selectedOptionId', 'isCorrect', 'pointsAwarded', 'answerLocked', 'optionResults']);
+
+            $this->question = Question::with(['questionOptions' => fn ($q) => $q->orderBy('position')])
+                ->find($event['questionId']);
+        }
+
+        public function onQuizEnded(): void
+        {
+            $this->question = null;
+        }
 
     public function render()
     {

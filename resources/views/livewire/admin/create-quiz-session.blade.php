@@ -95,6 +95,27 @@
                     </div>
 
 
+
+                    @if ($quizSession && $quizSession->status === 'live')
+                    <div class="mt-4 text-center">
+                        <button
+                        type="button"
+                        wire:click="nextQuestion"
+                        wire:confirm="Advance to the next question for all participants?"
+                        wire:loading.attr="disabled"
+                        class="btn btn-primary px-4 py-2"
+                        >
+                        <span wire:loading.remove wire:target="nextQuestion">Next Question</span>
+                        <span wire:loading wire:target="nextQuestion">Advancing...</span>
+                        </button>
+
+                        {{-- <p class="text-muted mt-2 mb-0">
+                        Current question ID: {{ $quizSession->current_question_id ?? '—' }}
+                        </p> --}}
+                    </div>
+                    @endif
+
+
                     <div class="form-actions right">
                         <button type="submit" class="btn btn-primary" wire:loading.attr="diabled">
                             <span wire:loading.remove>{{ $quizSession ? 'Update Session' : 'Create Session' }}</span>
