@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horizontal Bar Chart</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f5f7fa;
+  }
+  .chart-wrapper {
+    max-width: 700px;
+    width: 100%;
+  }
+  .bar-row {
+    margin-bottom: 18px;
+  }
+  .bar-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .bar-track {
+    background-color: #e9ecef;
+    border-radius: 6px;
+    height: 34px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: width 0.6s ease;
+  }
+  .bar-blue {
+    background-color: #0d6efd;
+  }
+  .bar-green {
+    background-color: #198754;
+  }
+</style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="chart-wrapper">
+    <h4 class="text-center mb-4">Option Results</h4>
+
+    <!-- Option A -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option A</span><span>45%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-blue" style="width: 45%;"></div>
+      </div>
+    </div>
+
+    <!-- Option B -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option B</span><span>30%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-blue" style="width: 30%;"></div>
+      </div>
+    </div>
+
+    <!-- Option C (Correct Answer) -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option C</span><span>78%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-green" style="width: 78%;"></div>
+      </div>
+    </div>
+
+    <!-- Option D -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option D</span><span>22%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-blue" style="width: 22%;"></div>
+      </div>
+    </div>
+
+    <!-- Option E -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option E</span><span>15%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-blue" style="width: 15%;"></div>
+      </div>
+    </div>
+
+    <!-- Option F -->
+    <div class="bar-row">
+      <div class="bar-label"><span>Option F</span><span>10%</span></div>
+      <div class="bar-track">
+        <div class="bar-fill bar-blue" style="width: 10%;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

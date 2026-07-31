@@ -23,6 +23,8 @@ class QuizLive extends FrontendComponent
 
     public bool $answerLocked = false;
 
+    public array $optionResults = [];
+
     #[On('countdown-finished')]
     public function countdownFinished(): void
     {
@@ -37,13 +39,13 @@ class QuizLive extends FrontendComponent
         abort_if($quiz->status !== 'live', 404);
 
         $participant = Participant::query()
-            ->whereKey(session('participant_id'))
+            ->whereKey(session('participant_id'))  //this is the primary key
             ->where('quiz_session_id', $quiz->id)
             ->firstOrFail();
 
         $this->question = Question::with([
             'questionOptions' => fn ($query) => $query->orderBy('position'),
-        ])->whereKey($quiz->current_question_id)
+        ])->whereKey($quiz->current_question_id)                   //this is the primary key for questions table
             ->where('question_set_id', $quiz->question_set_id)
             ->first();
 
@@ -168,10 +170,30 @@ class QuizLive extends FrontendComponent
 
     private function showResult(Answer $answer): void
     {
+
+        // after — actually count answers per option, then compute percentages
+        $countsByOption = Answer::query()
+            ->where('question_id', $this->question->id)
+            ->selectRaw('question_option_id, COUNT(*) as total')
+            ->groupBy('question_option_id')
+            ->pluck('total', 'question_option_id');
+
+        $totalAnswers = $countsByOption->sum();
+
+        $this->optionResults = $this->question->questionOptions
+            ->mapWithKeys(function ($option) use ($countsByOption, $totalAnswers) {
+                $count = $countsByOption->get($option->id, 0);
+                $percentage = $totalAnswers > 0 ? round(($count / $totalAnswers) * 100) : 0;
+                return [$option->id => $percentage];
+            })
+            ->toArray();
+
         $this->selectedOptionId = $answer->question_option_id;
         $this->isCorrect = $answer->is_correct;
         $this->pointsAwarded = $answer->points_awarded;
         $this->answerLocked = true;
+
+       
     }
 
     public function render()
