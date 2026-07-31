@@ -165,3 +165,58 @@ it('submits the selected answer when time expires', function () {
     expect($participant->refresh()->score)->toBe(2)
         ->and($participant->answers()->sole()->question_option_id)->toBe($correctOption->id);
 });
+
+it('renders the current question when the question advances', function () {
+    $user = User::factory()->create();
+    $questionSet = QuestionSet::create([
+        'title' => 'General Knowledge',
+        'created_by' => $user->id,
+    ]);
+    $firstQuestion = Question::create([
+        'question_set_id' => $questionSet->id,
+        'text' => 'What is 2 + 2?',
+        'position' => 1,
+        'points' => 2,
+    ]);
+    $nextQuestion = Question::create([
+        'question_set_id' => $questionSet->id,
+        'text' => 'What is 3 + 3?',
+        'position' => 2,
+        'points' => 2,
+    ]);
+    QuestionOption::create([
+        'question_id' => $nextQuestion->id,
+        'text' => '6',
+        'position' => 1,
+        'is_correct' => true,
+    ]);
+    $quiz = QuizSession::create([
+        'title' => 'Math Quiz',
+        'join_code' => 123456,
+        'status' => 'live',
+        'question_set_id' => $questionSet->id,
+        'current_question_id' => $firstQuestion->id,
+    ]);
+    $participant = Participant::create([
+        'quiz_session_id' => $quiz->id,
+        'name' => 'Alex',
+        'token' => 'participant-token',
+    ]);
+
+    session([
+        'quiz_session_id' => $quiz->id,
+        'participant_id' => $participant->id,
+    ]);
+
+    $component = Livewire::test(QuizLive::class)
+        ->assertSee('What is 2 + 2?');
+
+    $quiz->update(['current_question_id' => $nextQuestion->id]);
+
+    $component
+        ->call('onQuestionAdvanced', [])
+        ->assertSet('question.id', $nextQuestion->id)
+        ->assertDontSee('What is 2 + 2?')
+        ->assertSee('What is 3 + 3?')
+        ->assertSee('6');
+});

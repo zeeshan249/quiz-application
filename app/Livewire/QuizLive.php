@@ -17,7 +17,7 @@ class QuizLive extends FrontendComponent
 
     public ?int $selectedOptionId = null;
 
-    public ?int $quizSessionId = null; // new public property
+    public ?int $quizSessionId = null;
 
     public ?bool $isCorrect = null;
 
@@ -40,18 +40,16 @@ class QuizLive extends FrontendComponent
         $quiz = QuizSession::query()->findOrFail(session('quiz_session_id'));
         abort_if($quiz->status !== 'live', 404);
 
-
-          $this->quizSessionId = $quiz->id; // store it — this is what was missing
-
+        $this->quizSessionId = $quiz->id;
 
         $participant = Participant::query()
-            ->whereKey(session('participant_id'))  //this is the primary key
+            ->whereKey(session('participant_id'))  // this is the primary key
             ->where('quiz_session_id', $quiz->id)
             ->firstOrFail();
 
         $this->question = Question::with([
             'questionOptions' => fn ($query) => $query->orderBy('position'),
-        ])->whereKey($quiz->current_question_id)                   //this is the primary key for questions table
+        ])->whereKey($quiz->current_question_id)                   // this is the primary key for questions table
             ->where('question_set_id', $quiz->question_set_id)
             ->first();
 
@@ -190,6 +188,7 @@ class QuizLive extends FrontendComponent
             ->mapWithKeys(function ($option) use ($countsByOption, $totalAnswers) {
                 $count = $countsByOption->get($option->id, 0);
                 $percentage = $totalAnswers > 0 ? round(($count / $totalAnswers) * 100) : 0;
+
                 return [$option->id => $percentage];
             })
             ->toArray();
@@ -199,30 +198,30 @@ class QuizLive extends FrontendComponent
         $this->pointsAwarded = $answer->points_awarded;
         $this->answerLocked = true;
 
-       
     }
 
+    #[On('echo:quiz-session.{quizSessionId},QuestionAdvanced')]
+    public function onQuestionAdvanced(array $event = []): void
+    {
+        $quiz = QuizSession::query()
+            ->whereKey($this->quizSessionId)
+            ->where('status', 'live')
+            ->firstOrFail();
 
-            protected function getListeners(): array
-        {
-            return [
-                "echo:quiz-session.{$this->quizSessionId},QuestionAdvanced" => 'onQuestionAdvanced',
-                "echo:quiz-session.{$this->quizSessionId},QuizEnded" => 'onQuizEnded',
-            ];
-        }
+        $this->reset(['selectedOptionId', 'isCorrect', 'pointsAwarded', 'answerLocked', 'optionResults']);
 
-        public function onQuestionAdvanced(array $event): void
-        {
-            $this->reset(['selectedOptionId', 'isCorrect', 'pointsAwarded', 'answerLocked', 'optionResults']);
+        $this->question = Question::with([
+            'questionOptions' => fn ($query) => $query->orderBy('position'),
+        ])->whereKey($quiz->current_question_id)
+            ->where('question_set_id', $quiz->question_set_id)
+            ->first();
+    }
 
-            $this->question = Question::with(['questionOptions' => fn ($q) => $q->orderBy('position')])
-                ->find($event['questionId']);
-        }
-
-        public function onQuizEnded(): void
-        {
-            $this->question = null;
-        }
+    #[On('echo:quiz-session.{quizSessionId},QuizEnded')]
+    public function onQuizEnded(): void
+    {
+        $this->question = null;
+    }
 
     public function render()
     {
