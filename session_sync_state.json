@@ -1,0 +1,17 @@
+{
+  "sessions": {
+    "146a54eb-b446-4bdf-98c7-1fcd33fcdd2b": {
+      "lastLocalModified": "2026-08-01T04:51:15Z",
+      "lastUploaded": "2026-08-01T04:51:15Z",
+      "remoteSha": "33a4348a55b0ebd2a439baf22d038c9b25233844",
+      "syncState": "synced"
+    },
+    "c03a6dc4-8089-47fc-a75b-a190552f35f3": {
+      "lastLocalModified": "2026-08-01T04:51:19Z",
+      "lastUploaded": "2026-08-01T04:51:19Z",
+      "remoteSha": "f1e8f6ea860583e1435e44a12236de58593ed850",
+      "syncState": "synced"
+    }
+  },
+  "version": 1
+}

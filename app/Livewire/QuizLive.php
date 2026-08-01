@@ -200,7 +200,7 @@ class QuizLive extends FrontendComponent
 
     }
 
-    #[On('echo:quiz-session.{quizSessionId},QuestionAdvanced')]
+    #[On('echo:quiz-session.{quizSessionId},.QuestionAdvanced')]
     public function onQuestionAdvanced(array $event = []): void
     {
         $quiz = QuizSession::query()
@@ -217,7 +217,7 @@ class QuizLive extends FrontendComponent
             ->first();
     }
 
-    #[On('echo:quiz-session.{quizSessionId},QuizEnded')]
+    #[On('echo:quiz-session.{quizSessionId},.QuizEnded')]
     public function onQuizEnded(): void
     {
         $this->question = null;

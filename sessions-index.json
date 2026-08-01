@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "sessionId": "c03a6dc4-8089-47fc-a75b-a190552f35f3",
+      "fullPath": "C:\\laragon\\www\\quiz-application\\c03a6dc4-8089-47fc-a75b-a190552f35f3.jsonl",
+      "firstPrompt": "/quiz-sessions/98/edit when the  quiz goes live i need to  have a button next question on admin which will dispatch the next question _id based on Question Set selected i dont know how to approach this as such",
+      "summary": null,
+      "messageCount": 1,
+      "created": "2026-08-01T04:51:19Z",
+      "modified": "2026-08-01T04:51:19Z",
+      "projectPath": "C:\\laragon\\www\\batchlinksold",
+      "isSidechain": false
+    },
+    {
+      "sessionId": "146a54eb-b446-4bdf-98c7-1fcd33fcdd2b",
+      "fullPath": "C:\\laragon\\www\\quiz-application\\146a54eb-b446-4bdf-98c7-1fcd33fcdd2b.jsonl",
+      "firstPrompt": "hi",
+      "summary": null,
+      "messageCount": 10,
+      "created": "2026-08-01T04:51:15Z",
+      "modified": "2026-08-01T04:51:15Z",
+      "projectPath": "C:\\laragon\\www\\batchlinksold",
+      "isSidechain": false
+    }
+  ]
+}
